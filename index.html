@@ -2,16 +2,33 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Word Scramble</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <div class="game-container">
-    <h1>Word Scramble</h1>
-    <p class="scrambled" id="scrambled"></p>
+    <h1>🔤 Word Scramble</h1>
+
+    <div class="controls">
+      <label for="length-select">Letters:</label>
+      <select id="length-select">
+        <option value="4">4</option>
+        <option value="5" selected>5</option>
+        <option value="6">6</option>
+        <option value="7">7</option>
+      </select>
+    </div>
+
+    <div class="scrambled" id="scrambled"></div>
+
     <input type="text" id="guess" placeholder="Type your guess" autocomplete="off">
-    <button id="submit-btn">Submit</button>
-    <button id="skip-btn">Skip</button>
+
+    <div class="button-row">
+      <button id="submit-btn">Submit</button>
+      <button id="skip-btn">Skip</button>
+    </div>
+
     <p id="message"></p>
     <p class="score">Score: <span id="score">0</span></p>
   </div>

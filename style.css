@@ -1,51 +1,123 @@
+* { box-sizing: border-box; }
+
 body {
-  font-family: system-ui, sans-serif;
-  background: #1e1e2e;
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
   color: #f0f0f0;
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  min-height: 100vh;
   margin: 0;
 }
+
 .game-container {
   text-align: center;
+  background: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  padding: 2.5rem 3rem;
+  border-radius: 20px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
+  min-width: 340px;
+}
+
+h1 {
+  margin: 0 0 1.2rem;
+  font-size: 1.8rem;
+  letter-spacing: 0.05rem;
+}
+
+.controls {
+  margin-bottom: 1.2rem;
+  font-size: 0.95rem;
+}
+
+.controls select {
+  margin-left: 0.5rem;
+  padding: 0.3rem 0.6rem;
+  border-radius: 6px;
+  border: none;
   background: #2a2a3d;
-  padding: 2rem 3rem;
-  border-radius: 12px;
-  box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+  color: #fff;
+  font-size: 0.95rem;
 }
+
 .scrambled {
-  font-size: 2rem;
-  letter-spacing: 0.3rem;
-  margin: 1rem 0;
-  color: #ffd166;
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  margin: 1.2rem 0;
 }
+
+.letter-tile {
+  width: 2.6rem;
+  height: 2.6rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(145deg, #ffd166, #f4a537);
+  color: #1e1e2e;
+  font-weight: bold;
+  font-size: 1.4rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+  text-transform: uppercase;
+  animation: pop 0.25s ease;
+}
+
+@keyframes pop {
+  from { transform: scale(0.6); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
 input {
-  padding: 0.5rem;
+  width: 100%;
+  padding: 0.6rem 0.8rem;
   font-size: 1rem;
-  border-radius: 6px;
+  border-radius: 8px;
   border: none;
-  margin-right: 0.5rem;
+  outline: none;
+  margin-bottom: 1rem;
+  text-align: center;
+  background: rgba(255,255,255,0.9);
+  color: #1e1e2e;
 }
+
+.button-row {
+  display: flex;
+  gap: 0.6rem;
+  justify-content: center;
+}
+
 button {
-  padding: 0.5rem 1rem;
+  padding: 0.6rem 1.3rem;
   font-size: 1rem;
   border: none;
-  border-radius: 6px;
+  border-radius: 8px;
   background: #6c5ce7;
   color: white;
   cursor: pointer;
-  margin: 0.25rem;
+  transition: background 0.2s, transform 0.1s;
 }
+
 button:hover {
   background: #5a4bd6;
+  transform: translateY(-1px);
 }
+
+button:active {
+  transform: translateY(0);
+}
+
 #message {
   min-height: 1.5rem;
   font-weight: bold;
-}
-.score {
   margin-top: 1rem;
+}
+
+.score {
+  margin-top: 0.5rem;
   font-size: 1.1rem;
+  color: #ffd166;
 }
