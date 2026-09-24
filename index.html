@@ -7,7 +7,13 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="game-container">
+  <div class="sky" aria-hidden="true">
+    <div class="sun"></div>
+    <div class="stars" id="stars"></div>
+    <div class="clouds" id="clouds"></div>
+  </div>
+
+  <div class="game-container" id="card">
     <h1>🔤 Word Scramble</h1>
 
     <div class="controls">
@@ -30,7 +36,10 @@
     </div>
 
     <p id="message"></p>
-    <p class="score">Score: <span id="score">0</span></p>
+    <div class="stats">
+      <p class="score">Score: <span id="score">0</span></p>
+      <p class="streak">🔥 Streak: <span id="streak">0</span></p>
+    </div>
   </div>
   <script src="script.js"></script>
 </body>

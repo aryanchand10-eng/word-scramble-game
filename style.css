@@ -2,8 +2,10 @@
 
 body {
   font-family: 'Segoe UI', system-ui, sans-serif;
-  background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+  background: linear-gradient(180deg, #141234 0%, #2e2463 35%, #7a4b8f 65%, #e07a7a 85%, #f7b58b 100%);
   color: #f0f0f0;
+  overflow-x: hidden;
+  padding-inline: 16px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -11,7 +13,97 @@ body {
   margin: 0;
 }
 
+/* ---------- Sky scene ---------- */
+.sky {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.sun {
+  position: absolute;
+  left: 50%;
+  bottom: -18vmin;
+  width: 42vmin;
+  height: 42vmin;
+  transform: translateX(-50%);
+  border-radius: 50%;
+  background: radial-gradient(circle, #ffe3a3 0%, #ffb56b 45%, rgba(255, 140, 90, 0) 70%);
+  opacity: 0.85;
+  animation: sun-glow 6s ease-in-out infinite alternate;
+}
+
+@keyframes sun-glow {
+  from { opacity: 0.7; transform: translateX(-50%) scale(1); }
+  to   { opacity: 0.95; transform: translateX(-50%) scale(1.06); }
+}
+
+.star {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  border-radius: 50%;
+  background: #fff;
+  animation: twinkle var(--twinkle, 3s) ease-in-out infinite;
+  animation-delay: var(--delay, 0s);
+}
+
+@keyframes twinkle {
+  0%, 100% { opacity: 0.2; }
+  50%      { opacity: 1; }
+}
+
+.cloud {
+  position: absolute;
+  top: var(--top);
+  left: 0;
+  width: var(--w);
+  height: calc(var(--w) * 0.32);
+  background: var(--tint, #ffeef2);
+  border-radius: 999px;
+  opacity: var(--opacity, 0.8);
+  filter: blur(var(--blur, 1px));
+  animation: drift var(--dur) linear infinite;
+  animation-delay: var(--delay);
+  will-change: transform;
+}
+
+/* Two puffs on top give the cloud its shape */
+.cloud::before,
+.cloud::after {
+  content: "";
+  position: absolute;
+  background: inherit;
+  border-radius: 50%;
+}
+.cloud::before {
+  width: 50%;
+  height: 150%;
+  left: 14%;
+  bottom: 20%;
+}
+.cloud::after {
+  width: 36%;
+  height: 115%;
+  right: 14%;
+  bottom: 25%;
+}
+
+@keyframes drift {
+  from { transform: translateX(calc(-1 * var(--w) - 5vw)); }
+  to   { transform: translateX(105vw); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cloud, .star, .sun, .letter-tile, .game-container { animation: none !important; }
+}
+
+/* ---------- Game card ---------- */
 .game-container {
+  position: relative;
+  z-index: 1;
   text-align: center;
   background: rgba(255, 255, 255, 0.06);
   backdrop-filter: blur(12px);
@@ -19,7 +111,19 @@ body {
   padding: 2.5rem 3rem;
   border-radius: 20px;
   box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
-  min-width: 340px;
+  width: min(100%, 420px);
+}
+
+.game-container.shake {
+  animation: shake 0.4s ease;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-8px); }
+  40% { transform: translateX(8px); }
+  60% { transform: translateX(-5px); }
+  80% { transform: translateX(5px); }
 }
 
 h1 {
@@ -63,12 +167,25 @@ h1 {
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0,0,0,0.3);
   text-transform: uppercase;
-  animation: pop 0.25s ease;
+  animation: drop-in 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+  animation-delay: calc(var(--i) * 60ms);
+  transition: background 0.3s;
 }
 
-@keyframes pop {
-  from { transform: scale(0.6); opacity: 0; }
-  to { transform: scale(1); opacity: 1; }
+.letter-tile.solved {
+  background: linear-gradient(145deg, #7bed9f, #2ecc71);
+  animation: bounce 0.5s ease both;
+  animation-delay: calc(var(--i) * 70ms);
+}
+
+@keyframes drop-in {
+  from { transform: translateY(-30px) rotate(-12deg); opacity: 0; }
+  to   { transform: translateY(0) rotate(0); opacity: 1; }
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  40% { transform: translateY(-14px); }
 }
 
 input {
@@ -116,8 +233,21 @@ button:active {
   margin-top: 1rem;
 }
 
-.score {
+.stats {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
   margin-top: 0.5rem;
   font-size: 1.1rem;
-  color: #ffd166;
+}
+
+.stats p { margin: 0; }
+
+.score { color: #ffd166; }
+.streak { color: #ffa07a; }
+
+@media (max-width: 480px) {
+  .game-container { padding: 2rem 1.2rem; }
+  .scrambled { gap: 0.35rem; }
+  .letter-tile { width: 2.2rem; height: 2.2rem; font-size: 1.2rem; }
 }
